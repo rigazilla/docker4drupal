@@ -18,7 +18,7 @@ services:
     container_name: "${PROJECT_NAME}_php"
     environment:
       # PHP 8.2+ supports "PHP_MAIL_MIXED_LF_AND_CRLF=On" and does not need dos2unix workaround.
-      PHP_MAIL_MIXED_LF_AND_CRLF: On
+      PHP_MAIL_MIXED_LF_AND_CRLF: "On"
       PHP_SENDMAIL_PATH: '/usr/bin/msmtp -t'
 #     # PHP 8.1 and previous version require dos2unix workaround.
 #      PHP_SENDMAIL_PATH: '"/usr/bin/dos2unix -u | /usr/bin/msmtp -t"'
@@ -54,7 +54,7 @@ services:
 #      SIMPLETEST_DB: "${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}#tests_"
 #      MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","goog:chromeOptions":{"args":["--disable-gpu","--headless"]}}, "http://chrome:9515"]'
     volumes:
-    - ./:/var/www/html:cached
+    - ./ispn/:/var/www/html:cached
 ## Alternative for macOS users: Mutagen https://wodby.com/docs/stacks/drupal/local#docker-for-mac
 #    - drupal:/var/www/html
 ## For XHProf and Xdebug profiler traces
@@ -68,7 +68,7 @@ services:
       CRONTAB: "0 * * * * drush -r /var/www/html/web cron"
     command: sudo -E crond -f -d 0
     volumes:
-    - ./:/var/www/html:cached
+    - ./ispn/:/var/www/html:cached
 ## Alternative for macOS users: Mutagen https://wodby.com/docs/stacks/drupal/local#docker-for-mac
 #    - drupal:/var/www/html
 
@@ -85,7 +85,7 @@ services:
       NGINX_VHOST_PRESET: $NGINX_VHOST_PRESET
     #      NGINX_DRUPAL_FILE_PROXY_URL: http://example.com
     volumes:
-    - ./:/var/www/html:cached
+    - ./ispn/:/var/www/html:cached
 ## Alternative for macOS users: Mutagen https://wodby.com/docs/stacks/drupal/local#docker-for-mac
 #    - drupal:/var/www/html
     labels:
@@ -146,7 +146,14 @@ services:
 
 #  redis:
 #    container_name: "${PROJECT_NAME}_redis"
-#    image: wodby/redis:$REDIS_TAG
+#    image: wodby/redis:6
+
+  infinispan:
+    container_name: "${PROJECT_NAME}_infinispan"
+    image: quay.io/infinispan/server:15.0
+    volumes:
+      - ./conf:/user-config
+    command: -c /user-config/infinispan-redis.xml
 
 #  adminer:
 #    container_name: "${PROJECT_NAME}_adminer"
