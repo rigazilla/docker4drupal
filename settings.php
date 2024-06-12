@@ -505,8 +505,8 @@ $settings['update_free_access'] = FALSE;
  *
  * Value should be in PHP Octal Notation, with leading zero.
  */
-# $settings['file_chmod_directory'] = 0775;
-# $settings['file_chmod_file'] = 0664;
+$settings['file_chmod_directory'] = 0777;
+$settings['file_chmod_file'] = 0666;
 
 /**
  * Optimized assets path:
