@@ -1,3 +1,4 @@
+chmod a+w infinispan -R
 make up
 docker-compose exec php composer create-project drupal-composer/drupal-project:10.x-dev  . --no-interaction
 cp settings.php ispn/web/sites/default/settings.php
