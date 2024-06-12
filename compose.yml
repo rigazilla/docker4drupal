@@ -28,13 +28,13 @@ services:
 #      # OpenSMTPD:
 #      MSMTP_HOST: opensmtpd
 #      MSMTP_PORT: 25
-#      DB_HOST: $DB_HOST
-#      DB_PORT: $DB_PORT
-#      DB_USER: $DB_USER
-#      DB_PASSWORD: $DB_PASSWORD
-#      DB_NAME: $DB_NAME
-#      DB_DRIVER: $DB_DRIVER
-#      DRUSH_OPTIONS_URI: "http://${PROJECT_BASE_URL}:${PROJECT_PORT}"
+      DB_HOST: $DB_HOST
+      DB_PORT: $DB_PORT
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
+      DB_DRIVER: $DB_DRIVER
+      DRUSH_OPTIONS_URI: "http://${PROJECT_BASE_URL}:${PROJECT_PORT}"
 #      PHP_FPM_USER: wodby
 #      PHP_FPM_GROUP: wodby
 #      COLUMNS: 80 # Set 80 columns for docker exec -it.
@@ -144,16 +144,16 @@ services:
 #    - "traefik.http.services.${PROJECT_NAME}_varnish.loadbalancer.server.port=6081"
 #    - "traefik.http.routers.${PROJECT_NAME}_varnish.rule=Host(`varnish.${PROJECT_BASE_URL}`)"
 
-#  redis:
-#    container_name: "${PROJECT_NAME}_redis"
-#    image: wodby/redis:6
+  redis:
+    container_name: "${PROJECT_NAME}_redis"
+    image: wodby/redis:6
 
   infinispan:
     container_name: "${PROJECT_NAME}_infinispan"
     image: quay.io/infinispan/server:15.0.3.Final
     volumes:
-      - ./conf:/user-config
-    command: -c /user-config/infinispan-redis.xml
+      - ./infinispan:/opt/infinispan/infinispan
+    command: -s infinispan -c infinispan-resp.xml
 
 #  adminer:
 #    container_name: "${PROJECT_NAME}_adminer"
